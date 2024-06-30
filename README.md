@@ -15,7 +15,7 @@ This project is a simple web application that uses Python (Flask) as the backend
    
 3. Run the flask server:
    ```bash
-   pip install -r requirements.txt
+   python app.py
 
 ## Frontend Setup
 
