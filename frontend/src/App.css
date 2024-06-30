@@ -1,0 +1,25 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+}
+
+.ad-slot {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.ad {
+  border: 1px solid #ccc;
+  padding: 20px;
+  width: 200px;
+  height: 200px;
+  background-color: #cfc8c8;
+  display: flex;
+  align-items: center;
+}
