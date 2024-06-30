@@ -19,7 +19,7 @@ This project is a simple web application that uses Python (Flask) as the backend
 
 ## Frontend Setup
 
-1. Navigate to the `backend` directory:
+1. Navigate to the `frontend` directory:
    ```bash
    cd frontend
 
