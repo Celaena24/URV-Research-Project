@@ -15,15 +15,6 @@ function App() {
       .catch(error => console.error('Error fetching ads:', error));
   }, []);
 
-  const handleAdClick = (adId) => {
-    fetch('http://127.0.0.1:5000/record_click', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ ad_id: adId }),
-    }).catch(error => console.error('Error recording click:', error));
-  };
 
   return (
     <div className="App">
@@ -36,7 +27,7 @@ function App() {
         ) : (
           <div className="ad-slot">
             {displayedAds.map(ad => (
-              <div key={ad.id} className="ad" onClick={() => handleAdClick(ad.id)}>
+              <div key={ad.id} className="ad">
                 {ad.content}
               </div>
             ))}
