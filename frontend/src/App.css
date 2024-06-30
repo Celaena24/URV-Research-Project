@@ -17,10 +17,14 @@
 .ad {
   border: 1px solid #ccc;
   padding: 20px;
+}
+
+.ad-info {
+  background-color: #cfc8c8;
   width: 200px;
   height: 200px;
-  background-color: #cfc8c8;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+

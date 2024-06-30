@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import StarRating from './StarRating.js'
 
 function App() {
   const [displayedAds, setDisplayedAds] = useState([]);
@@ -27,8 +28,11 @@ function App() {
         ) : (
           <div className="ad-slot">
             {displayedAds.map(ad => (
-              <div key={ad.id} className="ad">
-                {ad.content}
+              <div className = "ad">
+                <div key={ad.id} className="ad-info">
+                  {ad.content}
+                </div>
+                <StarRating adId={ad.id} />
               </div>
             ))}
           </div>
