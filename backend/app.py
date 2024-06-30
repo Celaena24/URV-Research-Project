@@ -27,6 +27,10 @@ def get_ads():
     selected_ads = random.sample(ads, 3)
     return jsonify(selected_ads)
 
+@app.route('/all_ads', methods=['GET'])
+def all_ads():
+    return jsonify(ads)
+
 @app.route('/submit-rating', methods=['POST'])
 def submit_rating():
     data = request.json
