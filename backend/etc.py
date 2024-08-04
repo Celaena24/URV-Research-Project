@@ -10,12 +10,23 @@ class Ad:
         self.genre = genre
         self.age_restriction = age_restriction
         self.score = score
-        self.reward_distribution = np.random.uniform(0, 1)
+        self.reward_distribution = 0  # Placeholder for reward distribution
 
 
-class Rewards:
+class Agent:
+    def __init__(self, name, date_of_birth, location, agent_type):
+        self.name = name
+        self.date_of_birth = date_of_birth
+        self.location = location
+        self.agent_type = agent_type
+        self.reward_distributions = []
 
-    # Optimal rewards = 1st slot = highest reward, 2nd slot = 2nd highest reward, etc.
+    def generate_reward_distributions(self, ads):
+        self.reward_distributions = [np.random.uniform(0, 1) for _ in ads]
+        for ad, reward in zip(ads, self.reward_distributions):
+            ad.reward_distribution = reward
+
+    # Default way for generating optimal reward for agent - 1st slot = highest reward, 2nd slot = 2nd highest reward, etc.
     def optimal_reward_sort(self, ads, num_slots):
         sorted_ads = sorted(ads, key=lambda x: x.reward_distribution, reverse=True)
         optimal_combination = [
@@ -38,6 +49,14 @@ ads = [
     Ad("Ad 9: Movie with a strong female lead!", "Drama", 13, 7.6),
 ]
 
+# Sample agent data
+agent = Agent(
+    name="Test Agent", date_of_birth="1990-01-01", location="USA", agent_type="test"
+)
+
+# Generate reward distributions
+agent.generate_reward_distributions(ads)
+
 # Print ads
 print("-------------------")
 sorted_ads = sorted(ads, key=lambda obj: obj.reward_distribution, reverse=True)
@@ -46,12 +65,10 @@ for ad in sorted_ads:
     print(ad.name + " " + str(ad.reward_distribution))
 print("-------------------")
 
-rewards = Rewards()
 
-
-def ETC(ads, num_slots, total_steps, delta, reward_optimal):
+def ETC(ads, num_slots, total_steps, delta, agent):
     num_ads = len(ads)
-    optimal_combination = reward_optimal(ads, num_slots)
+    optimal_combination = agent.optimal_reward_sort(ads, num_slots)
     print("Optimal combo: ", optimal_combination)
     print("-------------------")
     regret = np.zeros(total_steps)
@@ -126,7 +143,7 @@ start_time = time.time()
 fig, ax = plt.subplots(figsize=(10, 5))
 
 for n in num_steps_list:
-    regret = ETC(ads, num_slots, n, delta, rewards.optimal_reward_sort)
+    regret = ETC(ads, num_slots, n, delta, agent)
     cum_regret = np.cumsum(regret)
     ax.plot(np.arange(n), cum_regret, label=f"n={n}, delta={delta}")
 
