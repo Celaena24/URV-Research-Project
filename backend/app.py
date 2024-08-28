@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from etc import Ad, Agent
+from etc import Ad, Agent, ETC
 import random
 
 app = Flask(__name__)
@@ -40,15 +40,24 @@ for ad in ads:
     ads_json.append(dic)
 
 sorted_ads = sorted(ads_json, key=lambda obj: obj["reward"], reverse=True)
-print(ads_json)
+print(sorted_ads)
+
+num_slots = 3
+n = 20000
+delta = 0.2
+
 
 @app.route('/ads', methods=['GET'])
 def get_ads():
-    return jsonify(sorted_ads[:3])
+    regret, selected_combination = ETC(ads, num_slots, n, delta, agent)
+    selected_ads = []
+    for index in selected_combination:
+        selected_ads.append(ads_json[index])
+    return jsonify(selected_ads)
 
 @app.route('/all_ads', methods=['GET'])
 def all_ads():
-    return jsonify(ads_json)
+    return jsonify(sorted_ads)
 
 
 if __name__ == '__main__':

@@ -57,16 +57,10 @@ agent = Agent(
 # Generate reward distributions
 agent.generate_reward_distributions(ads)
 
-# Print ads
-print("-------------------")
-sorted_ads = sorted(ads, key=lambda obj: obj.reward_distribution, reverse=True)
-print("Ads sorted by highest reward distribution:")
-for ad in sorted_ads:
-    print(ad.name + " " + str(ad.reward_distribution))
-print("-------------------")
 
 
 def ETC(ads, num_slots, total_steps, delta, agent):
+    
     num_ads = len(ads)
     optimal_combination = agent.optimal_reward_sort(ads, num_slots)
     print("Optimal combo: ", optimal_combination)
@@ -113,7 +107,8 @@ def ETC(ads, num_slots, total_steps, delta, agent):
 
     # Print selected combination
     for ad_index in selected_combination:
-        print(ads[ad_index].name + ", " + str(ads[ad_index].reward_distribution))
+        print(ads[ad_index].name + ", " + str(ads[ad_index].reward_distribution)) 
+    print(selected_combination)
     print("-------------------")
     print("Total steps used for exploration:", num_steps)
     print("-------------------")
@@ -128,10 +123,19 @@ def ETC(ads, num_slots, total_steps, delta, agent):
             )
             num_steps += 1
 
-    return regret
+    return [regret, selected_combination]
 
 
 if __name__ == "__main__":
+    
+    # Print ads
+    print("-------------------")
+    sorted_ads = sorted(ads, key=lambda obj: obj.reward_distribution, reverse=True)
+    print("Ads sorted by highest reward distribution:")
+    for ad in sorted_ads:
+        print(ad.name + " " + str(ad.reward_distribution))
+    print("-------------------")
+
     # Simulation parameters
     num_slots = 3
     num_steps_list = [20000]  # Horizon or total number of steps in the experiment
@@ -144,7 +148,7 @@ if __name__ == "__main__":
     fig, ax = plt.subplots(figsize=(10, 5))
 
     for n in num_steps_list:
-        regret = ETC(ads, num_slots, n, delta, agent)
+        regret, selected_combination = ETC(ads, num_slots, n, delta, agent)
         cum_regret = np.cumsum(regret)
         ax.plot(np.arange(n), cum_regret, label=f"n={n}, delta={delta}")
 
