@@ -1,6 +1,10 @@
 .App {
   text-align: center;
 }
+main {
+  display: flex;
+  justify-content: space-between;
+}
 
 .App-header {
   background-color: #282c34;
@@ -10,21 +14,19 @@
 
 .ad-slot {
   display: flex;
-  justify-content: space-around;
-  margin: 20px 0;
+  flex-direction: row;
+  height:fit-content;
 }
 
 .ad {
   border: 1px solid #ccc;
   padding: 20px;
+  margin: 20px;
+  width: 250px;
 }
 
 .ad-info {
   background-color: #cfc8c8;
-  width: 200px;
-  height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 20px;
 }
 

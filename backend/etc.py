@@ -131,32 +131,37 @@ def ETC(ads, num_slots, total_steps, delta, agent):
     return regret
 
 
-# Simulation parameters
-num_slots = 3
-num_steps_list = [20000]  # Horizon or total number of steps in the experiment
-delta = 0.2  # gap, higher value = lower m
+if __name__ == "__main__":
+    # Simulation parameters
+    num_slots = 3
+    num_steps_list = [20000]  # Horizon or total number of steps in the experiment
+    delta = 0.2  # gap, higher value = lower m
 
-# Measure execution time
-start_time = time.time()
+    # Measure execution time
+    start_time = time.time()
 
-# Plot the regret curves
-fig, ax = plt.subplots(figsize=(10, 5))
+    # Plot the regret curves
+    fig, ax = plt.subplots(figsize=(10, 5))
 
-for n in num_steps_list:
-    regret = ETC(ads, num_slots, n, delta, agent)
-    cum_regret = np.cumsum(regret)
-    ax.plot(np.arange(n), cum_regret, label=f"n={n}, delta={delta}")
+    for n in num_steps_list:
+        regret = ETC(ads, num_slots, n, delta, agent)
+        cum_regret = np.cumsum(regret)
+        ax.plot(np.arange(n), cum_regret, label=f"n={n}, delta={delta}")
 
-ax.set_title(f"Number of slots={num_slots}")
-ax.legend()
-ax.set_xlabel("Number of time steps")
-ax.set_ylabel("Cumulative Regret")
-for label in ax.get_xticklabels() + ax.get_yticklabels():
-    label.set_fontsize(8)
+    ax.set_title(f"Number of slots={num_slots}")
+    ax.legend()
+    ax.set_xlabel("Number of time steps")
+    ax.set_ylabel("Cumulative Regret")
+    for label in ax.get_xticklabels() + ax.get_yticklabels():
+        label.set_fontsize(8)
 
-fig.suptitle("ETC Algorithm with Hungarian Optimization")
+    fig.suptitle("ETC Algorithm with Hungarian Optimization")
 
-end_time = time.time()
-print(f"Execution time: {end_time - start_time} seconds")
+    end_time = time.time()
+    print(f"Execution time: {end_time - start_time} seconds")
 
-plt.show()
+    plt.show()
+
+
+
+    

@@ -1,0 +1,21 @@
+.sidebar {
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  .sidebar h2 {
+    margin-top: 0;
+  }
+  
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .sidebar li {
+    margin: 20px;
+    border: 1px solid #ccc;
+    background-color: #ffffff;
+  }

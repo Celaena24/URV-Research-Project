@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from etc import Ad, Agent
 import random
 
 app = Flask(__name__)
@@ -8,39 +9,46 @@ CORS(app)  # Enable CORS for all routes
 
 # Sample ad data
 ads = [
-    { 'id': 1, 'content': 'Ad 1: Horror Movie!', 'user_rating': None },
-    { 'id': 2, 'content': 'Ad 2: Romance Movie!', 'user_rating': None },
-    { 'id': 3, 'content': 'Ad 3: Comedy Movie!', 'user_rating': None },
-    { 'id': 4, 'content': 'Ad 4: Romantic Comedy Movie!', 'user_rating': None },
-    { 'id': 5, 'content': 'Ad 5: Adventure Movie!', 'user_rating': None },
-    { 'id': 6, 'content': 'Ad 6: Thriller Movie!', 'user_rating': None },
-    { 'id': 7, 'content': 'Ad 7: Award Winning Movie!', 'user_rating': None },
-    { 'id': 8, 'content': 'Ad 8: KDrama!', 'user_rating': None },
-    { 'id': 9, 'content': 'Ad 9: Critically aclaimed TV show!', 'user_rating': None },
-    { 'id': 10, 'content': 'Ad 10: Movie with a strong female lead!', 'user_rating': None }
+    Ad("Ad 0: Horror Movie!", "Horror", 18, 7.5),
+    Ad("Ad 1: Romance Movie!", "Romance", 13, 6.8),
+    Ad("Ad 2: Comedy Movie!", "Comedy", 13, 7.2),
+    Ad("Ad 3: Romantic Comedy Movie!", "Romantic Comedy", 13, 6.9),
+    Ad("Ad 4: Adventure Movie!", "Adventure", 13, 7.8),
+    Ad("Ad 5: Thriller Movie!", "Thriller", 18, 7.0),
+    Ad("Ad 6: Award Winning Movie!", "Drama", 18, 8.5),
+    Ad("Ad 7: KDrama!", "Drama", 13, 7.3),
+    Ad("Ad 8: Critically acclaimed TV show!", "TV Show", 18, 8.0),
+    Ad("Ad 9: Movie with a strong female lead!", "Drama", 13, 7.6),
 ]
 
+# Sample agent data
+agent = Agent(
+    name="Test Agent", date_of_birth="1990-01-01", location="USA", agent_type="test"
+)
 
+# Generate reward distributions
+agent.generate_reward_distributions(ads)
+
+ads_json = []
+for ad in ads:
+    dic = {}
+    dic["name"] = ad.name
+    dic["genre"] = ad.genre
+    dic["age_restriction"] = ad.age_restriction
+    dic["score"] = ad.score
+    dic["reward"] = ad.reward_distribution
+    ads_json.append(dic)
+
+sorted_ads = sorted(ads_json, key=lambda obj: obj["reward"], reverse=True)
+print(ads_json)
 
 @app.route('/ads', methods=['GET'])
 def get_ads():
-    selected_ads = random.sample(ads, 3)
-    return jsonify(selected_ads)
+    return jsonify(sorted_ads[:3])
 
 @app.route('/all_ads', methods=['GET'])
 def all_ads():
-    return jsonify(ads)
-
-@app.route('/submit-rating', methods=['POST'])
-def submit_rating():
-    data = request.json
-    ad_id = data.get('id')
-    rating = data.get('rating')
-    for ad in ads:
-        if ad['id'] == ad_id:
-            ad['user_rating'] = rating
-            break
-    return jsonify({"message": "Rating submitted successfully", "ad_id": ad_id, "rating": rating})
+    return jsonify(ads_json)
 
 
 if __name__ == '__main__':
